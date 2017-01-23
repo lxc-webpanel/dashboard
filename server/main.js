@@ -25,7 +25,8 @@ if (project.env === 'development') {
     quiet       : project.compiler_quiet,
     noInfo      : project.compiler_quiet,
     lazy        : false,
-    stats       : project.compiler_stats
+    stats       : project.compiler_stats,
+    https       : process.env.HTTPS || false
   }));
   app.use(require('webpack-hot-middleware')(compiler, {
     path: '/__webpack_hmr'
