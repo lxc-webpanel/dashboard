@@ -7,7 +7,7 @@
   },
   "env": {
     "NGINX_ROOT": {
-      "description": "Nginx root directory",
+      "description": "Nginx default root directory",
       "value": "dist"
     }
   }
