@@ -1,5 +1,10 @@
 {
   "name": "LXC Web Panel",
+  "scripts": {
+    "dokku": {
+      "predeploy": "npm rebuild node-sass"
+    }
+  },
   "env": {
     "NODE_ENV": {
       "description": "NodeJS environement",

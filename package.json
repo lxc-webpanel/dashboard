@@ -156,5 +156,6 @@
     "sinon-chai": "^2.8.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2"
-  }
+  },
+  "production": false
 }
