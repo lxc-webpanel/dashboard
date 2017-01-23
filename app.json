@@ -2,7 +2,7 @@
   "name": "LXC Web Panel",
   "scripts": {
     "dokku": {
-      "predeploy": "yarn compile"
+      "predeploy": "pwd && cd www/ && yarn install && yarn compile"
     }
   },
   "env": {
