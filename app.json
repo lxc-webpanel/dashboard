@@ -1,14 +1,9 @@
 {
   "name": "LXC Web Panel",
-  "scripts": {
-    "dokku": {
-      "postdeploy": "yarn dev"
-    }
-  },
   "env": {
-    "NGINX_ROOT": {
-      "description": "Nginx default root directory",
-      "value": "dist"
+    "NODE_ENV": {
+      "description": "NodeJS environement",
+      "value": "development"
     }
   }
 }
