@@ -115,8 +115,8 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.14",
-    "yargs": "^6.3.0",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.1",
+    "yargs": "^6.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
@@ -129,6 +129,7 @@
     "codecov": "^1.0.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
+    "entities": "^1.1.1",
     "enzyme": "^2.0.0",
     "eslint": "^3.0.1",
     "eslint-config-standard": "^6.0.0",
