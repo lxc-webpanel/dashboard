@@ -1,0 +1,14 @@
+{
+  "name": "LXC Web Panel",
+  "scripts": {
+    "dokku": {
+      "postdeploy": "node -v"
+    }
+  },
+  "env": {
+    "NGINX_ROOT": {
+      "description": "Nginx root directory",
+      "value": "dist"
+    }
+  }
+}
