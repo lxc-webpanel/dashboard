@@ -1,0 +1,41 @@
+@import 'base';
+@import '~normalize.css/normalize';
+
+// Some best-practice CSS that's useful for most apps
+// Just remove them if they're not what you want
+html {
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.layout {
+  height: 100%;
+}
+
+.valign {
+  display: table;
+  height: 100%;
+
+  &-child {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
