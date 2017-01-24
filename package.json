@@ -58,8 +58,7 @@
     "start": {
       "command": "node bin/dev-server",
       "env": {
-        "DEBUG": "app:*",
-        "API_ROOT": "https://lwp.googley.fr/api/v1/"
+        "DEBUG": "app:*"
       }
     },
     "test": {
