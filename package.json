@@ -115,7 +115,6 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.14",
-    "xtend": "^4.0.1",
     "yargs": "^6.3.0"
   },
   "devDependencies": {
