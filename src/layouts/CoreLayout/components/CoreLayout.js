@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import './CoreLayout.scss';
 import '../../../styles/core.scss';
 
@@ -12,13 +12,13 @@ export default class CoreLayout extends Component {
     loadMe: React.PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  componentWillMount () {
     this.props.loadMe();
   }
 
   render () {
     return (
-      <div className="core-layout">
+      <div className='core-layout'>
         <Header name={this.props.me.name} />
         <div>
           {this.props.children}

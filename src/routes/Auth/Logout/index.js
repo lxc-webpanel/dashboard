@@ -1,5 +1,3 @@
-import { logoutUser } from '../../../store/auth';
-
 export default (store) => ({
   path : 'logout',
   /*  Async getComponent is only invoked when route matches   */

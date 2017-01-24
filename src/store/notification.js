@@ -46,7 +46,7 @@ const ACTION_HANDLERS = {
     return Object.assign({}, state, {
       open: false
     });
-  },
+  }
 };
 
 // ------------------------------------

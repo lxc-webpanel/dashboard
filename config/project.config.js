@@ -2,7 +2,6 @@
 const path = require('path');
 const debug = require('debug')('app:config:project');
 const argv = require('yargs').argv;
-const ip = require('ip');
 
 debug('Creating default configuration.');
 // ========================================================
@@ -24,8 +23,13 @@ const config = {
   // ----------------------------------
   // Server Configuration
   // ----------------------------------
-  server_host : process.env.HOST || 'localhost', //ip.address(), // use string 'localhost' to prevent exposure on local network
+  server_host : process.env.HOST || 'localhost',
   server_port : process.env.PORT || 3000,
+
+  // ----------------------------------
+  // API Configuration
+  // ----------------------------------
+  api_root : process.env.API_ROOT,
 
   // ----------------------------------
   // Compiler Configuration
@@ -83,7 +87,8 @@ config.globals = {
   '__PROD__'     : config.env === 'production',
   '__TEST__'     : config.env === 'test',
   '__COVERAGE__' : !argv.watch && config.env === 'test',
-  '__BASENAME__' : JSON.stringify(process.env.BASENAME || '')
+  '__BASENAME__' : JSON.stringify(process.env.BASENAME || ''),
+  '__API_ROOT__' : JSON.stringify(config.api_root)
 };
 
 // ------------------------------------

@@ -79,13 +79,13 @@ export const loginUser = (username, password, redirect = '/') => dispatch => {
       }
     }));
   });
-}
+};
 
 export const logoutUser = (redirect = '/auth') => dispatch => {
   dispatch(logout());
   dispatch(notify('Successfully logged out!'));
   browserHistory.push(redirect);
-}
+};
 
 // ------------------------------------
 // Action Handlers

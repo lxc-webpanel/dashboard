@@ -7,15 +7,15 @@ const validate = values => {
   const errors = {};
 
   if (!values.username) {
-    errors.username = 'Required'
+    errors.username = 'Required';
   }
 
   if (!values.password) {
-    errors.email = 'Required'
+    errors.email = 'Required';
   }
 
   return errors;
-}
+};
 
 /*  Object of action creators (can also be function that returns object).
     Keys will be passed as props to presentational components. Here we are

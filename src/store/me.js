@@ -1,5 +1,5 @@
-import fetch from 'isomorphic-fetch';
-import { browserHistory } from 'react-router';
+// import fetch from 'isomorphic-fetch';
+// import { browserHistory } from 'react-router';
 import { CALL_API, Schemas } from '../middleware/api';
 
 // ------------------------------------
@@ -18,7 +18,7 @@ const fetchMe = () => ({
     endpoint: 'lwp/me',
     schema: Schemas.USER
   }
-})
+});
 
 export const loadMe = () => dispatch => dispatch(fetchMe());
 

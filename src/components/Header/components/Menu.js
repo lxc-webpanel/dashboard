@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import SvgIcon from 'material-ui/SvgIcon';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -17,9 +16,9 @@ const Menu = (props) => (
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
   >
-    <MenuItem primaryText='Containers' disabled={true} />
-    <MenuItem primaryText='Users' disabled={true} />
-    <MenuItem primaryText='Settings' disabled={true} />
+    <MenuItem primaryText='Containers' disabled />
+    <MenuItem primaryText='Users' disabled />
+    <MenuItem primaryText='Settings' disabled />
     <Divider />
     <MenuItem primaryText='Sign out' leftIcon={<SignOutIcon />} containerElement={<Link to='/auth/logout' />} />
   </IconMenu>

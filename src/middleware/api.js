@@ -1,12 +1,9 @@
-import { normalize, schema } from 'normalizr';
+import { schema } from 'normalizr';
 // import { camelizeKeys } from 'humps';
 import fetch from 'isomorphic-fetch';
 
-import { browserHistory } from 'react-router';
-
-
 // const API_ROOT = 'http://localhost:5000/';
-export const API_ROOT = 'https://lwp.googley.fr/api/v1/';
+export const API_ROOT = __API_ROOT__;
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
@@ -32,7 +29,7 @@ const callApi = (endpoint, schema = null, options = {}) => {
 
         return Object.assign({},
           json,
-          {  }
+          { }
         );
       })
     );
@@ -86,7 +83,7 @@ export default store => next => action => {
     headers: {
       'Authorization': `Bearer ${token}`
     }
-  })
+  });
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState());

@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../../components/Header';
 import './AuthLayout.scss';
 import '../../styles/core.scss';
 import Logo from '../../../public/logo.svg';

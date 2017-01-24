@@ -2,7 +2,6 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Logo from './Logo';
 import Menu from './Menu';
-import Links from './Links';
 import './Header.scss';
 
 const Header = (props) => {
@@ -12,11 +11,11 @@ const Header = (props) => {
     const hellos = ['Hello', 'Howdy', 'Salut', 'Bonjour', 'Holà'];
     const index = Math.floor(Math.random() * (hellos.length - 0)) + 0;
     return hellos[index];
-  }
+  };
 
   const ElementRight = () => (
     <div style={{ height: '100%' }}>
-      <span className="hello">{hello()} { name }</span>
+      <span className='hello'>{hello()} { name }</span>
       <Menu />
     </div>
   );

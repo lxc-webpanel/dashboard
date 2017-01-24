@@ -19,4 +19,4 @@ export const logUserIn = store => {
   if (token !== null) {
     store.dispatch(loginUserSuccess(token));
   }
-}
+};
