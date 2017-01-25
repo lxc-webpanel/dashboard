@@ -1,6 +1,6 @@
 {
   "name": "lxc-web-panel",
-  "version": "1.0-alpha",
+  "version": "1.0a",
   "description": "Awesome web panel for LXC!",
   "main": "src/main.js",
   "engines": {
