@@ -1,8 +1,8 @@
 {
-  "name": "react-redux-starter-kit",
-  "version": "3.0.0-alpha.2",
-  "description": "Get started with React, Redux, and React-Router!",
-  "main": "index.js",
+  "name": "lxc-web-panel",
+  "version": "1.0-alpha",
+  "description": "Awesome web panel for LXC!",
+  "main": "src/main.js",
   "engines": {
     "node": "^6.9.4",
     "npm": "^4.1.2"
@@ -71,9 +71,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
+    "url": "git+https://github.com/lxc-webpanel/dashboard.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": "Antoine Tanzilli <antoine@tanzil.li>",
   "license": "MIT",
   "dependencies": {
     "babel-core": "^6.17.0",
@@ -93,7 +93,6 @@
     "fs-extra": "^1.0.0",
     "html-webpack-plugin": "^2.22.0",
     "imports-loader": "^0.7.0",
-    "ip": "^1.1.2",
     "json-loader": "^0.5.4",
     "jwt-decode": "^2.1.0",
     "material-ui": "^0.16.7",
@@ -120,14 +119,11 @@
   "devDependencies": {
     "babel-eslint": "^7.1.0",
     "babel-plugin-istanbul": "^3.0.0",
-    "body-parser": "^1.16.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^6.0.0",
     "chai-enzyme": "^0.6.1",
     "cheerio": "^0.22.0",
     "codecov": "^1.0.1",
-    "cookie-parser": "^1.4.3",
-    "cors": "^2.8.1",
     "entities": "^1.1.1",
     "enzyme": "^2.0.0",
     "eslint": "^3.0.1",
@@ -138,8 +134,6 @@
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "express": "^4.14.0",
-    "express-jwt": "^5.1.0",
-    "jsonwebtoken": "^7.2.1",
     "karma": "^1.0.0",
     "karma-coverage": "^1.0.0",
     "karma-mocha": "^1.0.1",

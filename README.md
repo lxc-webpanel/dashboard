@@ -8,3 +8,7 @@ LXC Web Panel's dashboard
 *Do not run it in production*
 
 # /!\ Work in progress /!\
+
+# Credits
+
+This project is build on top of [React Redux Starter Kit](https://github.com/davezuko/react-redux-starter-kit) !
