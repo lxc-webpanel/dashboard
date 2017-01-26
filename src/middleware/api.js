@@ -1,6 +1,6 @@
+require('es6-promise').polyfill();
 import { schema } from 'normalizr';
 // import { camelizeKeys } from 'humps';
-import fetch from 'isomorphic-fetch';
 
 // const API_ROOT = 'http://localhost:5000/';
 export const API_ROOT = __API_ROOT__;
@@ -16,8 +16,6 @@ const callApi = (endpoint, schema = null, options = {}) => {
         if (!response.ok) {
           return Promise.reject(json);
         }
-
-        console.info('json', json);
 
         // const camelizedJson = camelizeKeys(json);
         // const nextPageUrl = getNextPageUrl(response);
@@ -77,13 +75,13 @@ export default store => next => action => {
   const { schema, types } = callAPI;
 
   // Add JWT token to each request
-  const token = store.getState().auth.token;
+  // const token = store.getState().auth.token;
 
-  options = Object.assign({}, options, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  });
+  // options = Object.assign({}, options, {
+  //   headers: {
+  //     'Authorization': `Bearer ${token}`
+  //   }
+  // });
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState());
