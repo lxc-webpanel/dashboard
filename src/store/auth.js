@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-fetch';
+require('es6-promise').polyfill();
 import { browserHistory } from 'react-router';
 import { checkHttpStatus } from '../utils';
-import { notify } from './notification';
+// import { notify } from './notification';
 
 // ------------------------------------
 // Constants
@@ -14,26 +14,21 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const loginUserSuccess = (token, redirect = false) => ({
+export const loginUserSuccess = token => ({
   type: LOGIN_USER_SUCCESS,
   payload: {
-    token: token
+    token
   }
 });
 
 export const loginUserFailure = error => ({
   type: LOGIN_USER_FAILURE,
   payload: {
-    status: error.response.status,
-    statusText: error.response.statusText
+    status: error.response.status
   }
 });
 
-export const loginUserRequest = (username, password) => ({
-  type: LOGIN_USER_REQUEST,
-  payload: { username, password }
-});
-
+export const loginUserRequest = () => ({ type: LOGIN_USER_REQUEST });
 export const logout = () => ({ type: LOGOUT_USER });
 
 // ------------------------------------
@@ -41,9 +36,9 @@ export const logout = () => ({ type: LOGOUT_USER });
 // ------------------------------------
 export const loginUser = (username, password, redirect = '/') => dispatch => {
   dispatch(loginUserRequest());
-  dispatch(notify('Logging you in...'));
+  // dispatch(notify('Logging you in...'));
 
-  return fetch('https://lwp.googley.fr/api/v1/auth', {
+  return fetch(`${__API_ROOT__}auth`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -55,13 +50,11 @@ export const loginUser = (username, password, redirect = '/') => dispatch => {
   .then(response => response.json())
   .then(json => {
     try {
-      setTimeout(() => {
-        dispatch(loginUserSuccess(json.access_token));
-        dispatch(notify('Successfully logged in'));
-        browserHistory.push(redirect);
-      }, 2000);
+      dispatch(loginUserSuccess(json.access_token));
+      browserHistory.push(redirect);
+      // dispatch(notify('Successfully logged in'));
     } catch (e) {
-      dispatch(loginUserFailure({
+      return dispatch(loginUserFailure({
         response: {
           status: 403,
           statusText: 'Invalid token'
@@ -70,9 +63,9 @@ export const loginUser = (username, password, redirect = '/') => dispatch => {
     }
   })
   .catch(error => {
-    console.error(error);
+    console.log('ERROR', JSON.stringify(error, null, 4));
 
-    dispatch(loginUserFailure({
+    return dispatch(loginUserFailure({
       response: {
         status: 500,
         statusText: 'Something bad happened! :('
@@ -83,8 +76,8 @@ export const loginUser = (username, password, redirect = '/') => dispatch => {
 
 export const logoutUser = (redirect = '/auth') => dispatch => {
   dispatch(logout());
-  dispatch(notify('Successfully logged out!'));
   browserHistory.push(redirect);
+  // dispatch(notify('Successfully logged out!'));
 };
 
 // ------------------------------------
@@ -93,8 +86,7 @@ export const logoutUser = (redirect = '/auth') => dispatch => {
 const ACTION_HANDLERS = {
   [LOGIN_USER_REQUEST]: (state) => {
     return Object.assign({}, state, {
-      'isAuthenticating': true,
-      'statusText': 'Logging you in...'
+      'isAuthenticating': true
     });
   },
   [LOGIN_USER_SUCCESS]: (state, action) => {
@@ -103,25 +95,20 @@ const ACTION_HANDLERS = {
     return Object.assign({}, state, {
       'isAuthenticating': false,
       'isAuthenticated': true,
-      'token': token,
-      'statusText': 'You have been successfully logged in.'
+      token
     });
   },
   [LOGIN_USER_FAILURE]: (state, action) => {
     return Object.assign({}, state, {
       'isAuthenticating': false,
       'isAuthenticated': false,
-      'token': null,
-      'username': null,
-      'statusText': `Authentication Error`
+      'token': null
     });
   },
   [LOGOUT_USER]: (state, action) => {
     return Object.assign({}, state, {
       'isAuthenticated': false,
-      'token': null,
-      'username': null,
-      'statusText': 'You have been successfully logged out.'
+      'token': null
     });
   }
 };
@@ -131,10 +118,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   token: null,
-  username: null,
   isAuthenticated: false,
-  isAuthenticating: false,
-  statusText: null
+  isAuthenticating: false
 };
 export default function authReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];

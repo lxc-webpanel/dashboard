@@ -17,11 +17,8 @@ const validate = values => {
   return errors;
 };
 
-/*  Object of action creators (can also be function that returns object).
-    Keys will be passed as props to presentational components. Here we are
-    implementing our wrapper around increment; the component doesn't care   */
 const mapDispatchToProps = {
-  login: loginUser
+  logUserIn: loginUser
 };
 
 const mapStateToProps = (state) => ({

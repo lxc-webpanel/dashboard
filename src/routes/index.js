@@ -2,7 +2,7 @@
 import CoreLayout from '../layouts/CoreLayout';
 import AuthLayout from '../layouts/AuthLayout';
 
-import HomeRoute from './Home';
+import DashboardRoute from './Dashboard';
 import CounterRoute from './Counter';
 import Login from './Auth/Login';
 import LogoutRoute from './Auth/Logout';
@@ -13,7 +13,7 @@ export const createRoutes = (store) => ([
   {
     path        : '/',
     component   : requireAuth(CoreLayout),
-    indexRoute  : HomeRoute,
+    indexRoute  : DashboardRoute,
     childRoutes : [
       CounterRoute(store)
     ]

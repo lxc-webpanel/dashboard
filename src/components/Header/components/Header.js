@@ -4,14 +4,14 @@ import Logo from './Logo';
 import Menu from './Menu';
 import './Header.scss';
 
+const hello = () => {
+  const hellos = ['Hello', 'Howdy', 'Salut', 'Bonjour', 'Holà'];
+  const index = Math.floor(Math.random() * (hellos.length - 0)) + 0;
+  return hellos[index];
+};
+
 const Header = (props) => {
   const { name } = props;
-
-  const hello = () => {
-    const hellos = ['Hello', 'Howdy', 'Salut', 'Bonjour', 'Holà'];
-    const index = Math.floor(Math.random() * (hellos.length - 0)) + 0;
-    return hellos[index];
-  };
 
   const ElementRight = () => (
     <div style={{ height: '100%' }}>
@@ -21,16 +21,13 @@ const Header = (props) => {
   );
 
   return (
-    <div>
-      <AppBar
-        title={null}
-        iconElementLeft={<Logo />}
-        iconElementRight={<ElementRight />}
-        iconStyleLeft={{ margin: 0 }}
-        iconStyleRight={{ fill: 'white' }}
-        style={{ backgroundColor: '#004159' }}
-      />
-    </div>
+    <AppBar
+      title={null}
+      iconElementLeft={<Logo />}
+      iconElementRight={<ElementRight />}
+      iconStyleLeft={{ margin: 0 }}
+      iconStyleRight={{ fill: 'white' }}
+      style={{ backgroundColor: '#004159' }} />
   );
 };
 

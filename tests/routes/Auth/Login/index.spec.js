@@ -11,7 +11,7 @@ describe('(Route) Auth - Login', () => {
     expect(typeof _route).to.equal('object');
   });
 
-  it('Configuration should contain path `login`', () => {
-    expect(_route.path).to.equal('login');
+  it('Configuration should contain `onEnter` function', () => {
+    expect(typeof _route.onEnter).to.equal('function');
   });
 });

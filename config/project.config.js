@@ -29,7 +29,7 @@ const config = {
   // ----------------------------------
   // API Configuration
   // ----------------------------------
-  api_root : process.env.API_ROOT,
+  api_root : process.env.API_ROOT || 'http://localhost',
 
   // ----------------------------------
   // Compiler Configuration

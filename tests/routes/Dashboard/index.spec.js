@@ -1,14 +1,14 @@
-import HomeRoute from 'routes/Home';
+import DashboardRoute from 'routes/Dashboard';
 
-describe('(Route) Home', () => {
+describe('(Route) Dashboard', () => {
   let _component;
 
   beforeEach(() => {
-    _component = HomeRoute.component();
+    _component = DashboardRoute.component();
   });
 
   it('Should return a route configuration object', () => {
-    expect(typeof HomeRoute).to.equal('object');
+    expect(typeof DashboardRoute).to.equal('object');
   });
 
   it('Should define a route component', () => {
