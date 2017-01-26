@@ -149,10 +149,13 @@ describe('(Internal Module) Auth', () => {
   });
 
   describe('(Action Creator) loginUserFailure', () => {
+    const error = {
+      status: 500,
+      statusText: 'Server Internal Error'
+    };
+
     const loginUserFailureAction = loginUserFailure({
-      response : {
-        status: 500
-      }
+      response : error
     });
 
     it('Should be exported as a function.', () => {
@@ -164,7 +167,7 @@ describe('(Internal Module) Auth', () => {
     });
 
     it('Should assign arguments to the "payload" property.', () => {
-      expect(loginUserFailureAction).to.have.property('payload').that.eqls({ status: 500 });
+      expect(loginUserFailureAction).to.have.property('payload').that.eqls(error);
     });
   });
 
@@ -219,6 +222,25 @@ describe('(Internal Module) Auth', () => {
         fetchMock.post(`${__API_ROOT__}auth`, { access_token: token });
 
         return store.dispatch(loginUser(username, password))
+          .then(() => {
+            expect(store.getActions()).to.eql(expectedActions);
+          });
+      });
+
+      it('Should dispatch "LOGIN_USER_FAILURE" if authentication request fails', () => {
+        const error = {
+          status: 401,
+          statusText: 'Invalid credentials!'
+        };
+
+        const expectedActions = [
+          { type: LOGIN_USER_REQUEST },
+          { type: LOGIN_USER_FAILURE, payload: error }
+        ];
+
+        fetchMock.post(`${__API_ROOT__}auth`, { status: 401 });
+
+        return store.dispatch(loginUser(username, 'invalidpassword'))
           .then(() => {
             expect(store.getActions()).to.eql(expectedActions);
           });

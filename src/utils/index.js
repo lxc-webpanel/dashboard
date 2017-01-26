@@ -4,6 +4,7 @@ export const checkHttpStatus = (response) => {
   } else {
     var error = new Error(response.statusText);
     error.response = response;
+
     throw error;
   }
 };

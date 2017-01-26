@@ -12,6 +12,7 @@ install:
   - yarn install
 
 script:
+  - npm rebuild node-sass
   - npm run deploy:dev
   - npm run deploy:prod
 

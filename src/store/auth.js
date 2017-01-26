@@ -24,7 +24,8 @@ export const loginUserSuccess = token => ({
 export const loginUserFailure = error => ({
   type: LOGIN_USER_FAILURE,
   payload: {
-    status: error.response.status
+    status: error.response.status,
+    statusText: error.response.statusText
   }
 });
 
@@ -49,26 +50,22 @@ export const loginUser = (username, password, redirect = '/') => dispatch => {
   .then(checkHttpStatus)
   .then(response => response.json())
   .then(json => {
-    try {
-      dispatch(loginUserSuccess(json.access_token));
-      browserHistory.push(redirect);
-      // dispatch(notify('Successfully logged in'));
-    } catch (e) {
-      return dispatch(loginUserFailure({
-        response: {
-          status: 403,
-          statusText: 'Invalid token'
-        }
-      }));
-    }
+    dispatch(loginUserSuccess(json.access_token));
+    browserHistory.push(redirect);
+    // dispatch(notify('Successfully logged in'));
   })
   .catch(error => {
-    console.log('ERROR', JSON.stringify(error, null, 4));
+    console.error('ERROR', JSON.stringify(error, null, 4));
+    let statusText = 'Something bad happened! :(';
+
+    if (error.response.status === 401) {
+      statusText = 'Invalid credentials!';
+    }
 
     return dispatch(loginUserFailure({
       response: {
-        status: 500,
-        statusText: 'Something bad happened! :('
+        status: error.response.status,
+        statusText
       }
     }));
   });
