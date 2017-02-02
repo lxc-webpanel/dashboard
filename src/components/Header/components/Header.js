@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Logo from './Logo';
-import Menu from './Menu';
+import MainMenu from '../../MainMenu';
 import './Header.scss';
 
 const hello = () => {
@@ -11,14 +11,18 @@ const hello = () => {
 };
 
 const Header = (props) => {
-  const { name } = props;
+  const { name, isFetching } = props;
 
-  const ElementRight = () => (
-    <div style={{ height: '100%' }}>
-      <span className='hello'>{hello()} { name }</span>
-      <Menu />
-    </div>
-  );
+  const ElementRight = () => {
+    const helloContent = isFetching ? 'Loading...' : (hello() + ` ${name}`);
+
+    return (
+      <div style={{ height: '100%' }}>
+        <span className='hello'>{ helloContent }</span>
+        <MainMenu />
+      </div>
+    );
+  };
 
   return (
     <AppBar
@@ -32,7 +36,8 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-  name: React.PropTypes.string
+  name: React.PropTypes.string,
+  isFetching: React.PropTypes.bool.isRequired
 };
 
 export default Header;

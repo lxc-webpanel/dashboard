@@ -1,6 +1,24 @@
 @import 'base';
 @import '~normalize.css/normalize';
 
+/**** clearfix ***/
+/*** http://cssmojo.com/latest_new_clearfix_so_far/ **/
+@mixin clearfix {
+  &:after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+.clearfix {
+  &:after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
 // Some best-practice CSS that's useful for most apps
 // Just remove them if they're not what you want
 html {
@@ -30,12 +48,19 @@ body {
   height: 100%;
 }
 
-.valign {
-  display: table;
-  height: 100%;
+// .valign {
+//   display: table;
+//   height: 100%;
 
-  &-child {
-    display: table-cell;
-    vertical-align: middle;
+//   &-child {
+//     display: table-cell;
+//     vertical-align: middle;
+//   }
+// }
+
+.core-layout {
+
+  &-inner {
+    padding: 20px;
   }
 }

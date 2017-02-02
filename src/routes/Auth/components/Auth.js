@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Paper from 'material-ui/Paper';
-import LoginForm from './LoginForm';
-import './Login.scss';
+import AuthForm from './AuthForm';
+import './Auth.scss';
 
 const paperStyle = {
   textAlign: 'center',
@@ -10,7 +10,7 @@ const paperStyle = {
   margin: '0 auto'
 };
 
-export const Login = (props) => {
+export const Auth = (props) => {
   const { logUserIn, handleSubmit } = props;
 
   const handleFormSubmit = (values) => {
@@ -21,12 +21,12 @@ export const Login = (props) => {
 
   return (
     <Paper zDepth={1} style={paperStyle}>
-      <LoginForm {...props} handleFormSubmit={handleSubmit(handleFormSubmit)} />
+      <AuthForm {...props} handleFormSubmit={handleSubmit(handleFormSubmit)} />
     </Paper>
   );
 };
 
-Login.propTypes = {
+Auth.propTypes = {
   logUserIn: PropTypes.func.isRequired,
 
   isAuthenticating: PropTypes.bool.isRequired,
@@ -35,4 +35,4 @@ Login.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 };
 
-export default Login;
+export default Auth;

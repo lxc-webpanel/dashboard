@@ -1,81 +1,51 @@
 require('es6-promise').polyfill();
 import { browserHistory } from 'react-router';
-import { checkHttpStatus } from '../utils';
-// import { notify } from './notification';
+import { CALL_API } from '../middleware/api';
+import { decode as jwtDecode } from 'jsonwebtoken';
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
-export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
+export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const loginUserSuccess = token => ({
+export const fetchAuthToken = (username, password) => ({
+  [CALL_API]: {
+    types: [ LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE ],
+    endpoint: 'auth',
+    method: 'POST',
+    body: {
+      username,
+      password
+    }
+  },
+  effect: ({ state, type }) => {
+    // Redirects user on success
+    if (type === LOGIN_USER_SUCCESS) {
+      browserHistory.push(state.location.query.redirect || '/');
+    }
+  }
+});
+
+export const logUserInWithToken = (token, identity = null) => ({
   type: LOGIN_USER_SUCCESS,
-  payload: {
-    token
+  response: {
+    access_token: token,
+    identity
   }
 });
 
-export const loginUserFailure = error => ({
-  type: LOGIN_USER_FAILURE,
-  payload: {
-    status: error.response.status,
-    statusText: error.response.statusText
-  }
-});
-
-export const loginUserRequest = () => ({ type: LOGIN_USER_REQUEST });
-export const logout = () => ({ type: LOGOUT_USER });
+export const logUserOut = () => ({ type: LOGOUT_USER });
 
 // ------------------------------------
 // Specialized Action Creator
 // ------------------------------------
-export const loginUser = (username, password, redirect = '/') => dispatch => {
-  dispatch(loginUserRequest());
-  // dispatch(notify('Logging you in...'));
-
-  return fetch(`${__API_ROOT__}auth`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    mode: 'cors',
-    body: JSON.stringify({ username, password })
-  })
-  .then(checkHttpStatus)
-  .then(response => response.json())
-  .then(json => {
-    dispatch(loginUserSuccess(json.access_token));
-    browserHistory.push(redirect);
-    // dispatch(notify('Successfully logged in'));
-  })
-  .catch(error => {
-    console.error('ERROR', JSON.stringify(error, null, 4));
-    let statusText = 'Something bad happened! :(';
-
-    if (error.response.status === 401) {
-      statusText = 'Invalid credentials!';
-    }
-
-    return dispatch(loginUserFailure({
-      response: {
-        status: error.response.status,
-        statusText
-      }
-    }));
-  });
-};
-
-export const logoutUser = (redirect = '/auth') => dispatch => {
-  dispatch(logout());
-  browserHistory.push(redirect);
-  // dispatch(notify('Successfully logged out!'));
-};
+export const logUserIn = (username, password) => dispatch => dispatch(fetchAuthToken(username, password));
 
 // ------------------------------------
 // Action Handlers
@@ -83,29 +53,35 @@ export const logoutUser = (redirect = '/auth') => dispatch => {
 const ACTION_HANDLERS = {
   [LOGIN_USER_REQUEST]: (state) => {
     return Object.assign({}, state, {
-      'isAuthenticating': true
+      isAuthenticating: true
     });
   },
   [LOGIN_USER_SUCCESS]: (state, action) => {
-    const { token } = action.payload;
+    const { access_token } = action.response;
+    let { identity } = action.response;
+
+    if (!identity) {
+      identity = jwtDecode(access_token).identity;
+    }
 
     return Object.assign({}, state, {
-      'isAuthenticating': false,
-      'isAuthenticated': true,
-      token
+      isAuthenticating: false,
+      isAuthenticated: true,
+      token: access_token,
+      identity
     });
   },
   [LOGIN_USER_FAILURE]: (state, action) => {
     return Object.assign({}, state, {
-      'isAuthenticating': false,
-      'isAuthenticated': false,
-      'token': null
+      isAuthenticating: false,
+      isAuthenticated: false,
+      token: null
     });
   },
   [LOGOUT_USER]: (state, action) => {
     return Object.assign({}, state, {
-      'isAuthenticated': false,
-      'token': null
+      isAuthenticated: false,
+      token: null
     });
   }
 };
@@ -115,6 +91,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   token: null,
+  identity: null,
   isAuthenticated: false,
   isAuthenticating: false
 };

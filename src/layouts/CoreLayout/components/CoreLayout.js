@@ -9,6 +9,7 @@ export default class CoreLayout extends Component {
   static propTypes = {
     children : React.PropTypes.element.isRequired,
     me: React.PropTypes.object.isRequired,
+    isFetching: React.PropTypes.bool.isRequired,
     loadMe: React.PropTypes.func.isRequired
   }
 
@@ -19,8 +20,8 @@ export default class CoreLayout extends Component {
   render () {
     return (
       <div className='core-layout'>
-        <Header name={this.props.me.name} />
-        <div>
+        <Header name={this.props.me.name} isFetching={this.props.isFetching} />
+        <div className='core-layout-inner'>
           {this.props.children}
         </div>
         <Notification />

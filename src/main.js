@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import queryString from 'query-string';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -11,7 +13,16 @@ injectTapEventPlugin();
 // ========================================================
 // Store Instantiation
 // ========================================================
-const initialState = window.___INITIAL_STATE__;
+// const initialState = window.___INITIAL_STATE__;
+const initialState = Object.assign({}, window.___INITIAL_STATE__, {
+  location: {
+    hash: window.location.hash,
+    pathname: window.location.pathname,
+    search: window.location.search,
+    query: queryString.parse(window.location.search),
+    key: null
+  }
+});
 const store = createStore(initialState);
 
 // ========================================================

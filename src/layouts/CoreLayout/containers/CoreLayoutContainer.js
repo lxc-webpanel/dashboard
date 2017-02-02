@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { loadMe } from '../../../store/me';
+import { loadMe } from '../../../store/users';
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -15,8 +15,16 @@ const mapDispatchToProps = {
   loadMe
 };
 
-const mapStateToProps = (state) => ({
-  me: state.me
-});
+const mapStateToProps = (state) => {
+  const {
+    auth: { identity },
+    entities: { users, users: { isFetching } }
+  } = state;
+
+  return {
+    me: users[identity] || {},
+    isFetching: isFetching
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout);

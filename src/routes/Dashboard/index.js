@@ -1,6 +1,6 @@
-import DashboardView from './components/DashboardView';
+import Dashboard from './containers/DashboardContainer';
 
 // Sync route definition
 export default {
-  component : DashboardView
+  component : Dashboard
 };

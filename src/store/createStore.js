@@ -5,12 +5,14 @@ import makeRootReducer from './reducers';
 import { updateLocation } from './location';
 import apiMiddleware from '../middleware/api';
 import localStorageMiddleware from '../middleware/localStorage';
+import effectsMiddleware from '../middleware/effects';
+// import authMiddleware from '../middleware/auth';
 
 export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk, apiMiddleware, localStorageMiddleware];
+  const middleware = [thunk, apiMiddleware, localStorageMiddleware, effectsMiddleware];
 
   // ======================================================
   // Store Enhancers

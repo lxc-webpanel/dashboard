@@ -1,13 +1,81 @@
 require('es6-promise').polyfill();
-import { schema } from 'normalizr';
-// import { camelizeKeys } from 'humps';
+import normalize from 'jsonapi-normalizer';
+import { logUserOut } from '../store/auth';
 
 // const API_ROOT = 'http://localhost:5000/';
 export const API_ROOT = __API_ROOT__;
 
+const formatAPIResponse = (data, endpoint) => {
+  let formattedResponse;
+
+  if (endpoint === 'lwp/me') {
+    const d = data.data;
+
+    formattedResponse = Object.assign({}, {
+      data: {
+        type: 'users',
+        id: d.id,
+        attributes: {
+          email: d.email,
+          name: d.name,
+          password: d.password
+        },
+        relationships: {
+          groups: {
+            data: d.groups.map(group => ({ type: 'groups', id: group }))
+          }
+        }
+      }
+    });
+  }
+
+  if (endpoint === 'lwp/host') {
+    const d = data.data;
+
+    formattedResponse = Object.assign({}, {
+      data: {
+        type: 'host',
+        id: 1,
+        attributes: {
+          cpu: {
+            cores: d.cpu.cores,
+            model: d.cpu.model,
+            usage: d.cpu.usage
+          },
+          disk_usage: {
+            disk: d.disk_usage.disk,
+            free: d.disk_usage.free,
+            percent: d.disk_usage.percent,
+            total: d.disk_usage.total,
+            used: d.disk_usage.used
+          },
+          dist: d.dist,
+          hostname: d.hostname,
+          kernel: d.kernel,
+          memory: {
+            percent: d.memory.percent,
+            percent_cached: d.memory.percent_cached,
+            swap_percent: d.memory.swap_percent,
+            swap_total: d.memory.swap_total,
+            swap_used: d.memory.swap_used,
+            total: d.memory.total,
+            used: d.memory.used
+          },
+          uptime: {
+            day: d.uptime.day,
+            time: d.uptime.time
+          }
+        }
+      }
+    });
+  }
+
+  return formattedResponse;
+};
+
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-const callApi = (endpoint, schema = null, options = {}) => {
+const callApi = (endpoint, options) => {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
   return fetch(fullUrl, options)
@@ -17,46 +85,49 @@ const callApi = (endpoint, schema = null, options = {}) => {
           return Promise.reject(json);
         }
 
-        // const camelizedJson = camelizeKeys(json);
-        // const nextPageUrl = getNextPageUrl(response);
+        if (endpoint === 'auth') {
+          return Object.assign({}, json);
+        }
 
-        // return Object.assign({},
-        //   normalize(camelizedJson, schema),
-        //   { nextPageUrl }
-        // );
+        try {
+          const formattedAPIResponse = formatAPIResponse(json, endpoint);
 
-        return Object.assign({},
-          json,
-          { }
-        );
+          console.log('formattedAPIResponse', formattedAPIResponse);
+          console.log('normalize', normalize(formattedAPIResponse));
+
+          return Object.assign({}, normalize(formattedAPIResponse));
+        } catch (e) {
+          console.error(e);
+        }
       })
     );
 };
 
-// We use this Normalizr schemas to transform API responses from a nested form
-// to a flat form where repos and users are placed in `entities`, and nested
-// JSON objects are replaced with their IDs. This is very convenient for
-// consumption by reducers, because we can easily build a normalized tree
-// and keep it updated as we fetch more data.
+const formatRequestOptions = (endpoint, method, body = null, token = null) => {
+  let options;
+  let headers = {
+    'Content-Type': 'application/json'
+  };
 
-// Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const userSchema = new schema.Entity('users', {
-  containers: containerSchema,
-  groups: groupSchema
-});
+  // Only the 'auth' endpoint is non-protected
+  if (endpoint !== 'auth' && token) {
+    headers = Object.assign({}, headers, {
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
-const containerSchema = new schema.Entity('containers');
+  options = {
+    headers,
+    method
+  };
 
-const groupSchema = new schema.Entity('groups');
+  if (body) {
+    options = Object.assign({}, options, {
+      body: JSON.stringify(body)
+    });
+  }
 
-// Schemas for API responses.
-export const Schemas = {
-  USER: userSchema,
-  USER_ARRAY: [userSchema],
-  CONTAINER: containerSchema,
-  CONTAINER_ARRAY: [containerSchema],
-  GROUP: groupSchema,
-  GROUP_ARRAY: [groupSchema]
+  return options;
 };
 
 // Action key that carries API call info interpreted by this Redux middleware.
@@ -71,34 +142,31 @@ export default store => next => action => {
     return next(action);
   }
 
-  let { endpoint, options } = callAPI;
-  const { schema, types } = callAPI;
-
-  // Add JWT token to each request
-  // const token = store.getState().auth.token;
-
-  // options = Object.assign({}, options, {
-  //   headers: {
-  //     'Authorization': `Bearer ${token}`
-  //   }
-  // });
+  let { endpoint } = callAPI;
+  const { types, method = 'GET', body = null } = callAPI;
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState());
   }
-
   if (typeof endpoint !== 'string') {
     throw new Error('Specify a string endpoint URL.');
   }
-  // if (!schema) {
-  //   throw new Error('Specify one of the exported Schemas.');
-  // }
+  if (body && typeof body !== 'object') {
+    throw new Error('Expected body to be an object.');
+  }
+  if (typeof method !== 'string') {
+    throw new Error('Specify a string method.');
+  } else if (method !== 'POST' && method !== 'GET') {
+    throw new Error('Expected method to be "GET" or "POST".');
+  }
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types.');
   }
   if (!types.every(type => typeof type === 'string')) {
     throw new Error('Expected action types to be strings.');
   }
+
+  const options = formatRequestOptions(endpoint, method, body, store.getState().auth.token);
 
   const actionWith = data => {
     const finalAction = Object.assign({}, action, data);
@@ -109,14 +177,19 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types;
   next(actionWith({ type: requestType }));
 
-  return callApi(endpoint, schema, options).then(
+  return callApi(endpoint, options).then(
     response => next(actionWith({
       response,
       type: successType
     })),
-    error => next(actionWith({
-      type: failureType,
-      error: error.message || 'Something bad happened'
-    }))
+    error => {
+      // TODO: dispatch LOGOUT_USER when server returns 401 (must discard token!);
+      store.dispatch(logUserOut());
+
+      return next(actionWith({
+        type: failureType,
+        error: error.description || 'Something bad happened'
+      }));
+    }
   );
 };

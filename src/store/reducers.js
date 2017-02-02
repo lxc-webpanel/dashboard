@@ -3,14 +3,18 @@ import { reducer as formReducer } from 'redux-form';
 import locationReducer from './location';
 import authReducer from './auth';
 import notificationReducer from './notification';
-import meReducer from './me';
+import usersReducer from './users';
+import hostReducer from './host';
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     location: locationReducer,
     auth: authReducer,
     form: formReducer,
-    me: meReducer,
+    host: hostReducer,
+    entities: combineReducers({
+      users: usersReducer
+    }),
     notification: notificationReducer,
     ...asyncReducers
   });

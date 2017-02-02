@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { loginUser } from '../../../../store/auth';
+import { logUserIn } from '../../../store/auth';
 import { reduxForm } from 'redux-form';
-import Login from '../components/Login';
+import Auth from '../components/Auth';
 
 const validate = values => {
   const errors = {};
@@ -18,7 +18,7 @@ const validate = values => {
 };
 
 const mapDispatchToProps = {
-  logUserIn: loginUser
+  logUserIn
 };
 
 const mapStateToProps = (state) => ({
@@ -26,9 +26,9 @@ const mapStateToProps = (state) => ({
   statusText: state.auth.statusText
 });
 
-const LoginWithForm = reduxForm({
-  form: 'login',
+const AuthWithForm = reduxForm({
+  form: 'auth',
   validate
-})(Login);
+})(Auth);
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginWithForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthWithForm);

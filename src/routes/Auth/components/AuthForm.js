@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
-import TextField from '../../../../components/Form/TextField';
+import TextField from '../../../components/Form/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export const LoginForm = (props) => {
+export const AuthForm = (props) => {
   const { handleFormSubmit, pristine, submitting } = props;
 
   return (
@@ -21,10 +21,10 @@ export const LoginForm = (props) => {
   );
 };
 
-LoginForm.propTypes = {
+AuthForm.propTypes = {
   handleFormSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired
 };
 
-export default LoginForm;
+export default AuthForm;

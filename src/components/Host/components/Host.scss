@@ -1,0 +1,129 @@
+.host-details {
+  padding: 20px 10px;
+
+  & > div {
+    padding: 10px;
+  }
+
+  &-item {
+    height: 100px;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    cursor: help;
+
+    &:hover {
+      .host-details-item-extras {
+        opacity: 1;
+      }
+    }
+
+    &-extras {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(174, 213, 129);
+      opacity: 0;
+      transition: opacity .3s;
+      color: white;
+      z-index: 10;
+
+      &.warning {
+        background-color: rgb(255, 183, 77);
+      }
+
+      &.info {
+        background-color: rgb(100, 181, 246);
+      }
+
+      ul {
+        margin: 0;
+        padding: 0 0 0 20px;
+
+        font-size: 13px;
+      }
+
+      .double {
+        float: left;
+        width: 50%;
+        position: relative;
+        padding: 0;
+
+        &-wrapper {
+          padding: 0 20px;
+          width: 100%;
+        }
+
+        &:first-child {
+          padding-right: 20px;
+        }
+
+        &:last-child {
+          padding-left: 20px;
+
+          &:before {
+            content: '';
+            height: 100%;
+            width: 1px;
+            background-color: rgb(245, 245, 245);
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+        }
+      }
+    }
+
+    svg {
+      position: absolute;
+      width: 130px !important;
+      height: 130px !important;
+      bottom: -35px;
+      right: 0px;
+      fill: rgb(245, 245, 245) !important;
+    }
+
+    // &-value,
+    // &-label {
+    //   display: block;
+    // }
+
+    &-value {
+      //display: inline-block;
+      font-size: 24px;
+
+      &-details {
+        display: none;
+        vertical-align: baseline;
+        margin-left: 5px;
+        font-size: 11px;
+        font-weight: 400;
+      }
+    }
+
+    &-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    &-progress {
+      position: absolute !important;
+      width: 100% !important;
+      bottom: 0;
+      left: 0;
+      height: 5px !important;
+      background-color: #DCEDC8 !important;
+
+      & > div {
+        background-color: #FAFAFA !important;
+      }
+    }
+
+    &-progress-warning {
+      background-color: #FFE0B2 !important;
+    }
+  }
+}
