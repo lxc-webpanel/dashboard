@@ -5,7 +5,7 @@
 }
 
 .host-cards {
-  padding: 20px 10px;
+  padding: 0 10px 20px;
 
   & > div {
     padding: 10px;
@@ -14,6 +14,7 @@
 
 .host-card {
   position: relative;
+  margin: 20px 0 0;
   padding: 20px;
   height: 100px;
   overflow: hidden;

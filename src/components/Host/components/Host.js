@@ -117,7 +117,7 @@ class Host extends Component {
       <Paper zDepth={1}>
         <HostToolbar hostname={hostname} />
         <div className='host-cards row'>
-          <div className='col s3'>
+          <div className='col s12 m6 l3'>
             <HostCard
               icon={<UptimeIcon style={iconStyles} color={white} />}
               value={formatUptime(uptime)}
@@ -125,7 +125,7 @@ class Host extends Component {
               extras={[uptimeExtras(host)]}
               />
           </div>
-          <div className='col s3'>
+          <div className='col s12 m6 l3'>
             <HostCard
               icon={<CPUIcon style={iconStyles} color={white} />}
               value={cpu.usage}
@@ -136,7 +136,7 @@ class Host extends Component {
               hasStatusColor
               />
           </div>
-          <div className='col s3'>
+          <div className='col s12 m6 l3'>
             <HostCard
               icon={<MemoryIcon style={iconStyles} color={white} />}
               value={memory.percent}
@@ -147,7 +147,7 @@ class Host extends Component {
               hasStatusColor
               />
           </div>
-          <div className='col s3'>
+          <div className='col s12 m6 l3'>
             <HostCard
               icon={<DiskIcon style={iconStyles} color={white} />}
               value={disk.percent}
