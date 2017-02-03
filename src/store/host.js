@@ -43,7 +43,7 @@ const initialState = {
   isFetching: true,
   cpu: {},
   memory: {},
-  disk_usage: {},
+  disk: {},
   uptime: {}
 };
 export default function hostReducer (state = initialState, action) {

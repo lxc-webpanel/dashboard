@@ -42,12 +42,12 @@ const formatAPIResponse = (data, endpoint) => {
             model: d.cpu.model,
             usage: d.cpu.usage
           },
-          disk_usage: {
-            disk: d.disk_usage.disk,
-            free: d.disk_usage.free,
-            percent: d.disk_usage.percent,
-            total: d.disk_usage.total,
-            used: d.disk_usage.used
+          disk: {
+            disk: d.disk.disk,
+            free: d.disk.free,
+            percent: d.disk.percent,
+            total: d.disk.total,
+            used: d.disk.used
           },
           dist: d.dist,
           hostname: d.hostname,
@@ -62,8 +62,10 @@ const formatAPIResponse = (data, endpoint) => {
             used: d.memory.used
           },
           uptime: {
-            day: d.uptime.day,
-            time: d.uptime.time
+            days: d.uptime.days,
+            hours: d.uptime.hours,
+            minutes: d.uptime.minutes,
+            seconds: d.uptime.seconds
           }
         }
       }
