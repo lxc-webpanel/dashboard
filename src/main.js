@@ -13,16 +13,8 @@ injectTapEventPlugin();
 // ========================================================
 // Store Instantiation
 // ========================================================
-// const initialState = window.___INITIAL_STATE__;
-const initialState = Object.assign({}, window.___INITIAL_STATE__, {
-  location: {
-    hash: window.location.hash,
-    pathname: window.location.pathname,
-    search: window.location.search,
-    query: queryString.parse(window.location.search),
-    key: null
-  }
-});
+const initialState = window.___INITIAL_STATE__;
+
 const store = createStore(initialState);
 
 // ========================================================
