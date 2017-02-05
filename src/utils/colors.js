@@ -2,56 +2,65 @@ import {
   white as w,
   black as b,
 
+  blue50,
   blue100,
   blue300,
   blue500,
   blue700,
 
+  lightGreen50,
   lightGreen100,
   lightGreen300,
   lightGreen500,
   lightGreen700,
 
+  orange50,
   orange100,
   orange300,
   orange500,
   orange700,
 
+  red50,
   red100,
   red300,
   red500,
   red700
 } from 'material-ui/styles/colors';
+import { STOPPED, FROZEN } from './states';
 
 export const white = w;
 export const black = b;
 
 export const info = {
-  base: blue500,
   dark: blue700,
-  light: blue300,
-  extraLight: blue100
+  base: blue500,
+  mediumLight: blue300,
+  light: blue100,
+  extraLight: blue50
 };
 
 export const success = {
-  base: lightGreen500,
   dark: lightGreen700,
-  light: lightGreen300,
-  extraLight: lightGreen100
+  base: lightGreen500,
+  mediumLight: lightGreen300,
+  light: lightGreen100,
+  extraLight: lightGreen50
 };
 
 export const warning = {
-  base: orange500,
   dark: orange700,
-  light: orange300,
-  extraLight: orange100
+  base: orange500,
+  mediumLight: orange300,
+  light: orange100,
+  extraLight: orange50
 };
 
 export const danger = {
-  base: red500,
   dark: red700,
-  light: red300,
-  extraLight: red100
+  base: red500,
+  mediumLight: red300,
+  light: red100,
+  extraLight: red50
 };
 
 const colors = {
@@ -63,7 +72,7 @@ const colors = {
   danger
 };
 
-export const getStatusColor = (value, theme = 'base') => {
+export const getResourcesStatusColor = (value, theme = 'base') => {
   if (value >= 90) {
     return colors.danger[theme];
   } else if (value >= 75) {
@@ -71,6 +80,16 @@ export const getStatusColor = (value, theme = 'base') => {
   }
 
   return colors.success[theme];
+};
+
+export const getStateStatusColor = state => {
+  if (state === STOPPED) {
+    return colors.danger.extraLight;
+  } else if (state === FROZEN) {
+    return colors.info.extraLight;
+  }
+
+  return colors.success.extraLight;
 };
 
 export default colors;

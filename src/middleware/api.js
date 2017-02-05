@@ -72,6 +72,39 @@ const formatAPIResponse = (data, endpoint) => {
     });
   }
 
+  if (endpoint === 'lxc/containers') {
+    const containers = data.data.map(container => ({
+      type: 'containers',
+      id: container.id,
+      attributes: {
+        lxc: {
+          arch: container.lxc.arch,
+          network: container.lxc.network.map(net => ({
+            flags: net.flags,
+            hwaddr: net.hwaddr,
+            ipv4: net.ipv4,
+            ipv6: net.ipv6,
+            link: net.link,
+            macvlan: net.macvlan,
+            mtu: net.mtu,
+            name: net.name,
+            script: net.script,
+            type: net.type,
+            veth: net.veth,
+            vlan: net.vlan
+          }))
+        },
+        name: container.name,
+        pid: container.pid,
+        state: container.state
+      }
+    }));
+
+    formattedResponse = Object.assign({}, {
+      data: containers
+    });
+  }
+
   return formattedResponse;
 };
 
@@ -90,6 +123,10 @@ const callApi = (endpoint, options) => {
         if (endpoint === 'auth') {
           return Object.assign({}, json);
         }
+
+        // if (endpoint === 'lxc/containers') {
+        //   return Object.assign({}, normalize(json));
+        // }
 
         try {
           const formattedAPIResponse = formatAPIResponse(json, endpoint);

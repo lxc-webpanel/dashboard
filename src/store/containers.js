@@ -1,37 +1,38 @@
 import { CALL_API } from '../middleware/api';
 import merge from 'lodash/merge';
+import union from 'lodash/union';
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 
-export const HOST_REQUEST = 'HOST_REQUEST';
-export const HOST_FAILURE = 'HOST_FAILURE';
-export const HOST_SUCCESS = 'HOST_SUCCESS';
+export const CONTAINERS_REQUEST = 'CONTAINERS_REQUEST';
+export const CONTAINERS_FAILURE = 'CONTAINERS_FAILURE';
+export const CONTAINERS_SUCCESS = 'CONTAINERS_SUCCESS';
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 
-const fetchHost = () => ({
+const fetchContainers = () => ({
   [CALL_API]: {
-    types: [ HOST_REQUEST, HOST_SUCCESS, HOST_FAILURE ],
-    endpoint: 'lwp/host'
+    types: [ CONTAINERS_REQUEST, CONTAINERS_SUCCESS, CONTAINERS_FAILURE ],
+    endpoint: 'lxc/containers'
   }
 });
 
-export const loadHost = () => dispatch => dispatch(fetchHost());
+export const loadContainers = () => dispatch => dispatch(fetchContainers());
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [HOST_REQUEST]: state => Object.assign({}, state, { isFetching: true }),
-  [HOST_FAILURE]: state => Object.assign({}, state, { isFetching: false }),
-  [HOST_SUCCESS]: (state, action) => merge({}, state, {
-    id: action.response.result.host[0],
-    isFetching: false
+  [CONTAINERS_REQUEST]: state => Object.assign({}, state, { isFetching: true }),
+  [CONTAINERS_FAILURE]: state => Object.assign({}, state, { isFetching: false }),
+  [CONTAINERS_SUCCESS]: (state, action) => merge({}, state, {
+    isFetching: false,
+    ids: union(state.ids, action.response.result.containers)
   })
 };
 
@@ -40,7 +41,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   isFetching: false,
-  id: null
+  ids: []
 };
 export default function hostReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];

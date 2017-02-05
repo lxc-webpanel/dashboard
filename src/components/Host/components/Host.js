@@ -22,7 +22,11 @@ const formatUptime = ({ days, hours, minutes }) => {
   return `${d} ${h}:${m}`;
 };
 
-const uptimeExtras = ({ dist, kernel }) => ([
+const uptimeExtras = ({ dist, hostname, kernel }) => ([
+  {
+    label: 'Hostname',
+    value: hostname
+  },
   {
     label: 'Dist',
     value: dist
@@ -120,18 +124,18 @@ class Host extends Component {
           <div className='col s12 m6 l3'>
             <HostCard
               icon={<UptimeIcon style={iconStyles} color={white} />}
-              value={formatUptime(uptime)}
+              value={uptime ? formatUptime(uptime) : 0}
               label='Uptime'
-              extras={[uptimeExtras(host)]}
+              extras={host ? [uptimeExtras(host)] : []}
               />
           </div>
           <div className='col s12 m6 l3'>
             <HostCard
               icon={<CPUIcon style={iconStyles} color={white} />}
-              value={cpu.usage}
+              value={cpu ? cpu.usage : 0}
               label='CPU'
               unit='%'
-              extras={[cpuExtras(cpu)]}
+              extras={cpu ? [cpuExtras(cpu)] : []}
               hasProgress
               hasStatusColor
               />
@@ -139,10 +143,10 @@ class Host extends Component {
           <div className='col s12 m6 l3'>
             <HostCard
               icon={<MemoryIcon style={iconStyles} color={white} />}
-              value={memory.percent}
+              value={memory ? memory.percent : 0}
               label='Memory'
               unit='%'
-              extras={[memoryExtras(memory), memorySwapExtras(memory)]}
+              extras={memory ? [memoryExtras(memory), memorySwapExtras(memory)] : []}
               hasProgress
               hasStatusColor
               />
@@ -150,10 +154,10 @@ class Host extends Component {
           <div className='col s12 m6 l3'>
             <HostCard
               icon={<DiskIcon style={iconStyles} color={white} />}
-              value={disk.percent}
+              value={disk ? disk.percent : 0}
               label='Disk'
               unit='%'
-              extras={[diskExtras(disk)]}
+              extras={disk ? [diskExtras(disk)] : []}
               hasProgress
               hasStatusColor
               />

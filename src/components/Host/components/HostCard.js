@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Paper from 'material-ui/Paper';
 import Progress from './Progress';
-import { info, white, getStatusColor } from '../../../utils/colors';
+import { info, white, getResourcesStatusColor } from '../../../utils/colors';
 
 const HostCard = ({
   extras,
@@ -16,7 +16,7 @@ const HostCard = ({
   const extrasLength = extras.length;
   const ulClassName = (extrasLength === 2) ? 'valign host-card-extras-two-up' : 'valign';
   const progress = hasProgress ? <Progress value={value} /> : '';
-  const backgroundColor = hasStatusColor ? getStatusColor(value, 'light') : info.light;
+  const backgroundColor = hasStatusColor ? getResourcesStatusColor(value, 'mediumLight') : info.mediumLight;
 
   return (
     <Paper zDepth={1}

@@ -5,17 +5,27 @@ import authReducer from './auth';
 import notificationReducer from './notification';
 import usersReducer from './users';
 import hostReducer from './host';
+import containersReducer from './containers';
+import merge from 'lodash/merge';
+
+const entities = (state = { host: {}, users: {}, containers: {} }, action) => {
+  if (action.response && action.response.entities) {
+    return merge({}, state, action.response.entities);
+  }
+
+  return state;
+};
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
-    location: locationReducer,
     auth: authReducer,
+    containers: containersReducer,
+    entities,
     form: formReducer,
     host: hostReducer,
-    entities: combineReducers({
-      users: usersReducer
-    }),
+    location: locationReducer,
     notification: notificationReducer,
+    users: usersReducer,
     ...asyncReducers
   });
 };

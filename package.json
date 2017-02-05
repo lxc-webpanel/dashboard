@@ -118,6 +118,7 @@
     "redux-form": "^6.4.3",
     "redux-object": "^0.0.3",
     "redux-thunk": "^2.0.0",
+    "reselect": "^2.5.4",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",

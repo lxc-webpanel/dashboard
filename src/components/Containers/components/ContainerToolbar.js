@@ -11,10 +11,10 @@ import {
   white
 } from 'material-ui/styles/colors';
 
-const HostToolbar = () => (
+const HostToolbar = ({ name }) => (
   <Toolbar>
     <ToolbarGroup firstChild>
-      <span className='hostname'>Host</span>
+      <span className='hostname'>{ name }</span>
     </ToolbarGroup>
     <ToolbarGroup>
       <RaisedButton
@@ -39,5 +39,9 @@ const HostToolbar = () => (
     </ToolbarGroup>
   </Toolbar>
 );
+
+HostToolbar.propTypes = {
+  name: PropTypes.string
+};
 
 export default HostToolbar;

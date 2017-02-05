@@ -15,15 +15,14 @@ const mapDispatchToProps = {
   loadMe
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     auth: { identity },
-    entities: { users, users: { isFetching } }
+    entities: { users }
   } = state;
 
   return {
-    me: users[identity] || {},
-    isFetching: isFetching
+    me: users[identity] || {}
   };
 };
 

@@ -51,11 +51,7 @@ export const logUserIn = (username, password) => dispatch => dispatch(fetchAuthT
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [LOGIN_USER_REQUEST]: (state) => {
-    return Object.assign({}, state, {
-      isAuthenticating: true
-    });
-  },
+  [LOGIN_USER_REQUEST]: state => Object.assign({}, state, { isAuthenticating: true }),
   [LOGIN_USER_SUCCESS]: (state, action) => {
     const { access_token } = action.response;
     let { identity } = action.response;

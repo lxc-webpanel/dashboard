@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import LinearProgress from 'material-ui/LinearProgress';
-import { white, getStatusColor } from '../../../utils/colors';
+import { white, getResourcesStatusColor } from '../../../utils/colors';
 
 const Progress = ({ value }) => (
   <LinearProgress
@@ -13,7 +13,7 @@ const Progress = ({ value }) => (
       left: 0,
       height: 5,
       width: '100%',
-      backgroundColor: getStatusColor(value, 'extraLight')
+      backgroundColor: getResourcesStatusColor(value, 'light')
     }}
     color={white} />
 );

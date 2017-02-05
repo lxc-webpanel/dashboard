@@ -1,5 +1,6 @@
 import { CALL_API } from '../middleware/api';
 import merge from 'lodash/merge';
+import union from 'lodash/union';
 
 // ------------------------------------
 // Constants
@@ -36,30 +37,27 @@ export const loadMe = () => dispatch => dispatch(fetchMe());
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const updateIsFetching = (state, bool) => Object.assign({}, state, { isFetching: bool });
 
 const ACTION_HANDLERS = {
-  [ME_REQUEST]: state => updateIsFetching(state, true),
-  [USERS_REQUEST]: state => updateIsFetching(state, true),
-  [ME_FAILURE]: state => updateIsFetching(state, false),
-  [USERS_FAILURE]: state => updateIsFetching(state, false),
-  [ME_SUCCESS]: (state, action) => {
-    const { users } = action.response.entities;
+  [ME_REQUEST]: state => Object.assign({}, state, { isFetching: true }),
+  [USERS_REQUEST]: state => Object.assign({}, state, { isFetching: true }),
 
-    return merge({}, state, users, { isFetching: false });
-  },
-  [USERS_SUCCESS]: (state, action) => {
-    const { users } = action.response.entities;
+  [ME_FAILURE]: state => Object.assign({}, state, { isFetching: false }),
+  [USERS_FAILURE]: state => Object.assign({}, state, { isFetching: false }),
 
-    return merge({}, state, users, { isFetching: false });
-  }
+  [ME_SUCCESS]: state => merge({}, state, { isFetching: false }),
+  [USERS_SUCCESS]: (state, action) => merge({}, state, {
+    isFetching: false,
+    ids: union(state.ids, action.response.result.users)
+  })
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  isFetching: true
+  isFetching: false,
+  ids: []
 };
 export default function usersReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];

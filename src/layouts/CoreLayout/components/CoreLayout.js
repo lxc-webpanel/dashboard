@@ -9,7 +9,7 @@ export default class CoreLayout extends Component {
   static propTypes = {
     children : React.PropTypes.element.isRequired,
     me: React.PropTypes.object.isRequired,
-    isFetching: React.PropTypes.bool.isRequired,
+    isFetching: React.PropTypes.bool,
     loadMe: React.PropTypes.func.isRequired
   }
 

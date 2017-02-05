@@ -10,9 +10,7 @@ const hello = () => {
   return hellos[index];
 };
 
-const Header = (props) => {
-  const { name, isFetching } = props;
-
+const Header = ({ name, isFetching }) => {
   const ElementRight = () => {
     const helloContent = isFetching ? 'Loading...' : (hello() + ` ${name}`);
 
@@ -37,7 +35,7 @@ const Header = (props) => {
 
 Header.propTypes = {
   name: React.PropTypes.string,
-  isFetching: React.PropTypes.bool.isRequired
+  isFetching: React.PropTypes.bool
 };
 
 export default Header;

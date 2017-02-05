@@ -6,7 +6,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
-  host: state.host
+  host: state.entities.host[state.host.id] || {}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Host);
